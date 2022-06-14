@@ -2,7 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default ({ currentUser, logout }) => {
-  const display = (
+  // Different buttons to display depending on current user status
+  const display = currentUser ? (               // a current user exists
+    <div>
+      <p>Hello, {currentUser.username}</p>
+      <button onClick={logout}>Logout</button>
+    </div>
+  ) : (                                         // no users logged in
     <div>
       <Link className="btn" to="/signup">Sign Up</Link>
       <Link className="btn" to="/login">Log In</Link>
