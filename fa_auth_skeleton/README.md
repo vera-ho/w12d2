@@ -16,3 +16,6 @@
 ##### W4D2
 
 + Added views for Users and Chirps (delaying likes until auth)
+
+
+// Note Jun 14,2022 -> Project for following AAO instructional videos (Frontend Authentication)
