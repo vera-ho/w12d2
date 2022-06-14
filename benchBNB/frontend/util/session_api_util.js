@@ -7,10 +7,17 @@ export const signup = (user) => (
     })
 )
 
-export const login = (userId) => (
+export const login = (user) => (
     $.ajax({
         method: "POST",
-        url: "/api/users",
+        url: "/api/session",
         data: { user }
     })
 )
+export const logout = () => (
+    $.ajax({
+        method: "DELETE",
+        url: "/api/session"
+    })
+)
+
