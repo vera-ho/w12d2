@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
-  # def new
-  #   render :new
-  # end
+  def new
+    render :new
+  end
 
   def create
     # Find user by credentials
@@ -14,7 +14,8 @@ class SessionsController < ApplicationController
     else
     # Log them in and redirect them if we find them
       login!(@user)
-      render :json
+      redirect_to user_url(@user)
+      # render :json
     end
 
   end
