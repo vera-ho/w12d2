@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 
 export default class SessionForm extends React.Component {
     constructor(props) {
@@ -9,7 +10,7 @@ export default class SessionForm extends React.Component {
         };
     }
 
-    handleInput = (type) => {
+    handleInput = type => {
         return e => {
             this.setState({ [type]: e.target.value });
         }
@@ -21,12 +22,15 @@ export default class SessionForm extends React.Component {
         this.props.processForm(user); 
     }
 
-
     render() {
+        const otherFormType = (this.props.formType === "Login") ? ("Sign Up") : ("Login");
+        const otherFormLink = (this.props.formType === "Login") ? ("signup") : ("login");
 
         return (
             <div className="session-form">
                 <h1 className="session-form-header">{this.props.formType}</h1>
+                <Link to={`/${otherFormLink}`}>{`or Click to ${otherFormType}`}</Link>
+                <br></br><br></br>
 
                 <form className="session-form-element">
                     <label>Username:
@@ -36,7 +40,7 @@ export default class SessionForm extends React.Component {
                             onChange={this.handleInput("username")}
                         />
                     </label>
-
+                    <br></br>
                     <label>Password:
                         <input
                             type="password"
@@ -44,7 +48,7 @@ export default class SessionForm extends React.Component {
                             onChange={this.handleInput("password")}
                         />
                     </label>
-
+                    <br></br>
                     <button onClick={this.handleSubmit}>{this.props.formType}</button>
                 </form>
             </div>
