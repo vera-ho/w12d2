@@ -1,3 +1,22 @@
 // Place all the styles related to the Sessions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.btn {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: larger;
+
+    border: 2px black dotted;
+    padding: 10px;
+    margin: 10px;
+
+    background-color: aquamarine;
+}
+
+.logo {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin: 10px;
+    padding: 10px;
+
+    // border: 2px dashed aquamarine;
+
+}
