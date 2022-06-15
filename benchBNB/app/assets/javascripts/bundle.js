@@ -46,7 +46,7 @@ var login = function login(user) {
   return function (dispatch) {
     return _util_session_api_util__WEBPACK_IMPORTED_MODULE_0__.login(user).then(function (user) {
       return dispatch(receiveCurrentUser(user));
-    })["catch"](function (err) {
+    }, function (err) {
       return dispatch(receiveErrors(err));
     });
   };
@@ -55,7 +55,7 @@ var logout = function logout() {
   return function (dispatch) {
     return _util_session_api_util__WEBPACK_IMPORTED_MODULE_0__.logout().then(function () {
       return dispatch(logoutCurrentUser());
-    })["catch"](function (err) {
+    }, function (err) {
       return dispatch(receiveErrors(err));
     });
   };
@@ -64,7 +64,7 @@ var signup = function signup(user) {
   return function (dispatch) {
     return _util_session_api_util__WEBPACK_IMPORTED_MODULE_0__.signup(user).then(function (user) {
       return dispatch(receiveCurrentUser(user));
-    })["catch"](function (err) {
+    }, function (err) {
       return dispatch(receiveErrors(err));
     });
   };
@@ -531,7 +531,7 @@ var sessionReducer = function sessionReducer() {
       });
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__.LOGOUT_CURRENT_USER:
-      return _nullSession;
+      return Object.assign({}, _nullSession);
 
     default:
       return state;

@@ -20,18 +20,18 @@ export const receiveErrors = (errors) => ({
 
 export const login = user => dispatch => (
     SessionUtil.login(user)
-        .then( user => dispatch(receiveCurrentUser(user)))
-        .catch(err => dispatch(receiveErrors(err)))
+        .then( user => dispatch(receiveCurrentUser(user)), 
+                err => dispatch(receiveErrors(err)) )
 );
 
 export const logout = () => dispatch => (
     SessionUtil.logout()
-        .then( () => dispatch(logoutCurrentUser()))
-        .catch(err => dispatch(receiveErrors(err)))
+        .then( () => dispatch(logoutCurrentUser()),
+              err => dispatch(receiveErrors(err)) ) 
 );
 
 export const signup = user => dispatch => (
     SessionUtil.signup(user)
-        .then( (user) => dispatch(receiveCurrentUser(user)))
-        .catch(err => dispatch(receiveErrors(err)))
+        .then( (user) => dispatch(receiveCurrentUser(user)),
+                  err => dispatch(receiveErrors(err)))
 );
