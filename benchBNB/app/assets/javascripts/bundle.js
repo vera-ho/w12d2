@@ -1,6 +1,57 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./frontend/actions/bench_actions.js":
+/*!*******************************************!*\
+  !*** ./frontend/actions/bench_actions.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "RECEIVE_BENCH": () => (/* binding */ RECEIVE_BENCH),
+/* harmony export */   "RECEIVE_BENCHES": () => (/* binding */ RECEIVE_BENCHES),
+/* harmony export */   "fetchBench": () => (/* binding */ fetchBench),
+/* harmony export */   "fetchBenches": () => (/* binding */ fetchBenches),
+/* harmony export */   "receiveBench": () => (/* binding */ receiveBench),
+/* harmony export */   "receiveBenches": () => (/* binding */ receiveBenches)
+/* harmony export */ });
+/* harmony import */ var _util_bench_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/bench_api_util */ "./frontend/util/bench_api_util.js");
+
+var RECEIVE_BENCHES = "RECEIVE_BENCHES";
+var RECEIVE_BENCH = "RECEIVE_BENCH"; // Action creators
+
+var receiveBenches = function receiveBenches(benches) {
+  return {
+    type: RECEIVE_BENCHES,
+    benches: benches
+  };
+};
+var receiveBench = function receiveBench(bench) {
+  return {
+    type: RECEIVE_BENCH,
+    bench: bench
+  };
+}; // Thunk Actions
+
+var fetchBenches = function fetchBenches() {
+  return function (dispatch) {
+    return _util_bench_api_util__WEBPACK_IMPORTED_MODULE_0__.fetchBenches().then(function (benches) {
+      return dispatch(receiveBenches(benches));
+    });
+  };
+};
+var fetchBench = function fetchBench(bench) {
+  return function (dispatch) {
+    return _util_bench_api_util__WEBPACK_IMPORTED_MODULE_0__.receiveBench(bench).then(function (bench) {
+      return dispatch(receiveBench(bench));
+    });
+  };
+};
+
+/***/ }),
+
 /***/ "./frontend/actions/session_actions.js":
 /*!*********************************************!*\
   !*** ./frontend/actions/session_actions.js ***!
@@ -405,6 +456,41 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
+/***/ "./frontend/reducers/benches_reducer.js":
+/*!**********************************************!*\
+  !*** ./frontend/reducers/benches_reducer.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "benchesReducer": () => (/* binding */ benchesReducer)
+/* harmony export */ });
+/* harmony import */ var _actions_bench_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/bench_actions */ "./frontend/actions/bench_actions.js");
+
+var benchesReducer = function benchesReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+  var nextState = Object.assign({}, state);
+
+  switch (action.type) {
+    case _actions_bench_actions__WEBPACK_IMPORTED_MODULE_0__.RECEIVE_BENCHES:
+      Object.assign(nextState, action.benches);
+      return nextState;
+
+    case _actions_bench_actions__WEBPACK_IMPORTED_MODULE_0__.RECEIVE_BENCH:
+      nextState[action.bench.id] = action.bench;
+      return nextState;
+
+    default:
+      return state;
+  }
+};
+
+/***/ }),
+
 /***/ "./frontend/reducers/entities_reducer.js":
 /*!***********************************************!*\
   !*** ./frontend/reducers/entities_reducer.js ***!
@@ -417,11 +503,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "entitiesReducer": () => (/* binding */ entitiesReducer)
 /* harmony export */ });
 /* harmony import */ var _users_reducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./users_reducer */ "./frontend/reducers/users_reducer.js");
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _benches_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./benches_reducer */ "./frontend/reducers/benches_reducer.js");
 
 
-var entitiesReducer = (0,redux__WEBPACK_IMPORTED_MODULE_1__.combineReducers)({
-  users: _users_reducer__WEBPACK_IMPORTED_MODULE_0__.usersReducer
+
+var entitiesReducer = (0,redux__WEBPACK_IMPORTED_MODULE_2__.combineReducers)({
+  users: _users_reducer__WEBPACK_IMPORTED_MODULE_0__.usersReducer,
+  benches: _benches_reducer__WEBPACK_IMPORTED_MODULE_1__.benchesReducer
 });
 
 /***/ }),
@@ -602,6 +691,42 @@ var configureStore = function configureStore() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (configureStore);
+
+/***/ }),
+
+/***/ "./frontend/util/bench_api_util.js":
+/*!*****************************************!*\
+  !*** ./frontend/util/bench_api_util.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchBenches": () => (/* binding */ fetchBenches),
+/* harmony export */   "receiveBench": () => (/* binding */ receiveBench)
+/* harmony export */ });
+var fetchBenches = function fetchBenches() {
+  return $.ajax({
+    method: "GET",
+    url: "/api/benches",
+    error: function error(err) {
+      return console.log(err);
+    }
+  });
+};
+var receiveBench = function receiveBench(bench) {
+  return $.ajax({
+    method: "POST",
+    url: "/api/benches",
+    data: {
+      bench: bench
+    },
+    error: function error(err) {
+      return console.log(err);
+    }
+  });
+};
 
 /***/ }),
 
@@ -42019,10 +42144,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
+/* harmony import */ var _actions_bench_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./actions/bench_actions */ "./frontend/actions/bench_actions.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
+
+ // import { fetchBenches } from "./util/bench_api_util"
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -42047,6 +42175,7 @@ document.addEventListener('DOMContentLoaded', function () {
   window.store = store;
   window.getState = store.getState;
   window.dispatch = store.dispatch;
+  window.fetchBenches = _actions_bench_actions__WEBPACK_IMPORTED_MODULE_4__.fetchBenches;
   react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_root__WEBPACK_IMPORTED_MODULE_3__["default"], {
     store: store
   }), root);
