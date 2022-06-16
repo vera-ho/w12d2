@@ -1,5 +1,5 @@
 import React from "react";
-// import BenchIndexItem from "./bench_index_item";
+import MarkerManager from "../../util/marker_manager";
 
 export default class BenchMap extends React.Component {
     constructor(props) {
@@ -13,8 +13,17 @@ export default class BenchMap extends React.Component {
         };
         
         this.map = new google.maps.Map(this.mapNode, mapOptions);
+        // this.map = new google.maps.Map(mapDOMNode, mapOptions);
+        this.MarkerManager = new MarkerManager(this.map);
+        this.MarkerManager.updateMarkers(this.props.benches);
     }
-
+    
+    componentDidUpdate(prevProps) {
+        // debugger
+        if(prevProps !== this.props) {
+            this.MarkerManager.updateMarkers(this.props.benches);
+        }
+    }
 
     render() {
         
