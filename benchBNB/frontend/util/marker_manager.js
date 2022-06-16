@@ -6,17 +6,19 @@ export default class MarkerManager {
 
     updateMarkers(benches) {
         console.log("Update markers!")
-        let test = Object.values(benches).map( bench => {
-            if(!(bench.id in this.markers)) {
-                // Create Marker, add to map, add to this.markers
-                let mark = new google.maps.Marker({
-                    position: { lat:bench.lat, lng: bench.lng},
-                    map: this.map
-                })
-                this.markers[bench.id] = mark;
-            }
+        Object.values(benches).map( bench => {
+            this.createMarker(bench);
         })
-        console.log(this.markers)
-        console.log(test);
+    }
+
+    createMarker = bench => {
+        if(!(bench.id in this.markers)) {
+            let mark = new google.maps.Marker({
+                position: { lat: bench.lat, lng: bench.lng},
+                map: this.map, 
+                title: bench.description
+            })
+            this.markers[bench.id] = mark;
+        }
     }
 }

@@ -368,8 +368,7 @@ var BenchMap = /*#__PURE__*/function (_React$Component) {
         // SF
         zoom: 13
       };
-      this.map = new google.maps.Map(this.mapNode, mapOptions); // this.map = new google.maps.Map(mapDOMNode, mapOptions);
-
+      this.map = new google.maps.Map(this.mapNode, mapOptions);
       this.MarkerManager = new _util_marker_manager__WEBPACK_IMPORTED_MODULE_1__["default"](this.map);
       this.MarkerManager.updateMarkers(this.props.benches);
     }
@@ -1062,9 +1061,27 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var MarkerManager = /*#__PURE__*/function () {
   function MarkerManager(map) {
+    var _this = this;
+
     _classCallCheck(this, MarkerManager);
+
+    _defineProperty(this, "createMarker", function (bench) {
+      if (!(bench.id in _this.markers)) {
+        var mark = new google.maps.Marker({
+          position: {
+            lat: bench.lat,
+            lng: bench.lng
+          },
+          map: _this.map,
+          title: bench.description
+        });
+        _this.markers[bench.id] = mark;
+      }
+    });
 
     this.map = map;
     this.markers = {};
@@ -1073,24 +1090,12 @@ var MarkerManager = /*#__PURE__*/function () {
   _createClass(MarkerManager, [{
     key: "updateMarkers",
     value: function updateMarkers(benches) {
-      var _this = this;
+      var _this2 = this;
 
       console.log("Update markers!");
-      var test = Object.values(benches).map(function (bench) {
-        if (!(bench.id in _this.markers)) {
-          // Create Marker, add to map, add to this.markers
-          var mark = new google.maps.Marker({
-            position: {
-              lat: bench.lat,
-              lng: bench.lng
-            },
-            map: _this.map
-          });
-          _this.markers[bench.id] = mark;
-        }
+      Object.values(benches).map(function (bench) {
+        _this2.createMarker(bench);
       });
-      console.log(this.markers);
-      console.log(test);
     }
   }]);
 
