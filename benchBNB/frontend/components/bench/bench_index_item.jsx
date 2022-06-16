@@ -7,7 +7,6 @@ export default class BenchIndexItem extends React.Component {
     }
 
     render() {
-        // debugger
         const bench = this.props.bench;
 
         return (
